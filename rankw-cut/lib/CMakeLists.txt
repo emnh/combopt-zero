@@ -12,5 +12,5 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src/lib source)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src source)
 
-add_library(_boolw_cut SHARED ${source})
-target_link_libraries(_boolw_cut "${TORCH_LIBRARIES}")
+add_library(_rankw_cut SHARED ${source})
+target_link_libraries(_rankw_cut "${TORCH_LIBRARIES}")

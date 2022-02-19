@@ -6,10 +6,10 @@ class MaxCutLib:
     def __init__(self, args):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         try:
-            self.lib = ctypes.CDLL('{}/build/lib_boolw_cut.so'.format(dir_path))
+            self.lib = ctypes.CDLL('{}/build/lib_rankw_cut.so'.format(dir_path))
         except OSError:
             self.lib = ctypes.CDLL(
-                '{}/build/lib_boolw_cut.dylib'.format(dir_path))
+                '{}/build/lib_rankw_cut.dylib'.format(dir_path))
 
         self.lib.Test.restype = ctypes.c_int
         self.lib.TestByMCTS.restype = ctypes.c_int
