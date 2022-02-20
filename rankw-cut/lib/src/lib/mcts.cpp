@@ -295,7 +295,7 @@ int test() {
     
     std::cerr << "rankwidth: valid=" << valid << " ret=" << ret << "/greedy=";
     std::cerr << greedy << "/netlrw=" << lrankw << "/trw=" << rankw;
-    std::cerr << "/diff=" << (greedy - trw) << std::endl;
+    std::cerr << "/diff=" << (greedy - rankw) << std::endl;
     
     std::cerr << "ordering: ";
     for (auto& v : ordering) {
