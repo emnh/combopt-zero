@@ -246,10 +246,17 @@ int test() {
         int reward;
         graph = step(graph, action, adj_black, adj_white, reward);
         // ret += reward;
-        ret = std::max(ret, -reward);
+        // std::cerr << "reward: " << reward;
+        if (-reward >= 10000) {
+            ret = -reward;
+            break;
+        }
+        // ret = std::min(ret, -reward);
         count++;
+        ret += -reward;
     }
-    ret += count;
+    std::cerr << std::endl;
+    // ret += count;
     
     std::vector<int> sortedOrdering = ordering;
     bool valid = true;
@@ -265,8 +272,13 @@ int test() {
         }
     }
 
-    int greedy = linearRankWidth(ordering, CurrentTestGraph, true);
-    int rankw = linearRankWidth(ordering, CurrentTestGraph, false);
+    int greedy = linearRankWidth(ordering, CurrentTestGraph, 0, true);
+    int rankw = linearRankWidth(ordering, CurrentTestGraph, 0, false);
+    if (valid) {
+        ret = rankw;
+    } else {
+        ret += 10000;
+    }
     // if (!valid) {
     //     ret = 10000;
     // }

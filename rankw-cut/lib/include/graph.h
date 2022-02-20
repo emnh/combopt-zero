@@ -13,6 +13,7 @@ public:
     int num_nodes;
     int num_nodesColored;
     int num_edges;
+    std::vector<int> ordering;
     std::vector<std::vector<int>> adj_list;
     std::vector<std::pair<int, int>> edge_list;
 
