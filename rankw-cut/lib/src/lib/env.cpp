@@ -5,7 +5,15 @@
 
 #include "mis_experiments/src/prelude.cpp"
 #include "mis_experiments/src/gf2rank.cpp"
+#include "mis_experiments/src/treap.cpp"
 #include "mis_experiments/src/linearRankWidth.cpp"
+
+/*
+Idea: Use a treap, mapping a permutation (node, permutationIndex) or (permutationIndex, node) to a unique tree.
+Idea: Use a heap, also mapping a permutation to a tree, albeit not uniquely (how do we guarantee persistence then?).
+Idea: Allow nodes to be moved to the front of the permutation, or moved one step, or moved k steps.
+Idea: Allow nodes to be recolored.
+*/
 
 bool is_end(const Graph& g) {
     return g.num_nodes == g.num_nodesColored;
@@ -31,6 +39,28 @@ unsigned long long linearRankWidth(std::vector<int> ordering, const Graph& g, in
                 });
     }
     return linearRankWidth(ordering, neighbourhoods, partiallyOrdered, greedy);
+}
+
+unsigned long long treapRankWidth(std::vector<int> ordering, const Graph& g, int partiallyOrdered, bool greedy) {
+    vector<hoodtype> neighbourhoods;
+    for (int i = 0; i < g.num_nodes; i++) {
+        neighbourhoods.push_back(hoodtype());
+    }
+    // Add edges from graph to neighbourhoods
+    for (auto& p : g.edge_list) {
+        int u = p.first, v = p.second;
+        neighbourhoods[u].set(v);
+        neighbourhoods[v].set(u);
+    }
+    if (greedy) {
+        sort(ordering.begin(), ordering.end(), 
+            [&neighbourhoods](const int& a, const int& b) 
+                { 
+                    // return a < b;
+                    return neighbourhoods[a].count() > neighbourhoods[b].count();
+                });
+    }
+    return treapRankWidth(ordering, neighbourhoods, partiallyOrdered, greedy);
 }
 
 Graph step(const Graph& g, int action, std::vector<int>& adj_black, std::vector<int>& adj_white, int& reward) {
@@ -155,7 +185,7 @@ Graph step(const Graph& g, int action, std::vector<int>& adj_black, std::vector<
     if (alreadyColored) {
         reward = -10000;
     } else {
-        reward = -linearRankWidth(newOrdering, ret, ret.ordering.size(), true);
+        reward = -treapRankWidth(newOrdering, ret, ret.ordering.size(), true);
         // assert(reward < 0);
     }
     

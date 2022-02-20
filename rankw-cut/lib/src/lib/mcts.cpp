@@ -273,7 +273,8 @@ int test() {
     }
 
     int greedy = linearRankWidth(ordering, CurrentTestGraph, 0, true);
-    int rankw = linearRankWidth(ordering, CurrentTestGraph, 0, false);
+    int lrankw = linearRankWidth(ordering, CurrentTestGraph, 0, false);
+    int rankw = treapRankWidth(ordering, CurrentTestGraph, 0, false);
     if (valid) {
         ret = rankw;
     } else {
@@ -292,17 +293,21 @@ int test() {
         }
     }
     
-    std::cerr << "linear rankwidth: valid=" << valid << " ret=" << ret << "/greedy=" << greedy << "/network_lrw=" << rankw << " ordering: ";
+    std::cerr << "rankwidth: valid=" << valid << " ret=" << ret << "/greedy=";
+    std::cerr << greedy << "/netlrw=" << lrankw << "/trw=" << rankw;
+    std::cerr << "/diff=" << (greedy - trw) << std::endl;
+    
+    std::cerr << "ordering: ";
     for (auto& v : ordering) {
         std::cerr << v << " ";
     }
-    std::cerr << std::endl;
+    // std::cerr << std::endl;
     
     std::cerr << "blacks: ";
     for (auto& v : blacks) {
         std::cerr << v << " ";
     }
-    std::cerr << std::endl;
+    // std::cerr << std::endl;
     
     std::cerr << "whites: ";
     for (auto& v : whites) {
